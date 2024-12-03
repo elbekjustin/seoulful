@@ -13,6 +13,8 @@ export enum Message {
 	// Yuklash muvaffaqiyatsiz tugadi!
 	BAD_REQUEST = 'Bad Request',
 	// Noto'g'ri so'rov!
+
+	USED_MEMBER_NICK_OR_PHONE = "Already used member nick or phone",
 	NO_MEMBER_NICK = 'No member with that member nick!',
 	// Ushbu nom bilan a'zo topilmadi!
 	BLOCKED_USER = 'You have been blocked!',
