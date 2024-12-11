@@ -148,8 +148,8 @@ files: Promise<FileUpload>[],
 			const imageName = getSerialForImage(filename);
 			const url = `uploads/${target}/${imageName}`;
 			const stream = createReadStream();
-
 			const result = await new Promise((resolve, reject) => {
+
 				stream
 					.pipe(createWriteStream(url))
 					.on('finish', () => resolve(true))
