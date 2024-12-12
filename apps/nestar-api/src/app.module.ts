@@ -15,6 +15,7 @@ import { T } from './libs/types/common';
 			driver: ApolloDriver, // Apollo GraphQL serveri uchun driver/kutubxona
 			playground: true,
 			uploads: false,
+			debug: true, // Debug ma'lumotlar
 			autoSchemaFile: true,
       formatError: (error: T) => {
         const graphQLFormattedError = {
