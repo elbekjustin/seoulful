@@ -3,16 +3,16 @@ import { ObjectId } from 'bson';
 export const availableAgentSorts = ['createdAt', 'updatedAt', 'memberLike', 'memberViews', 'memberRank'];
 export const availableMemberSorts = ['createdAt', 'updatedAt', 'memberLike', 'memberViews'];
 
- // IMAGE CONFIGURATION (config.js)
+ // IMAGE CONFIGURATION 
 import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path';
 
 export const validMimeTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 export const getSerialForImage = (filename: string) => {
 	const ext = path.parse(filename).ext;
-	return uuidv4() + ext;
+	return uuidv4() + ext; // jibrish name + . png,jpg,jpeg
 };
 
-export const shapeIntoMongoObjectid = (target: any) => {
+export const shapeIntoMongoObjectId = (target: any) => {
     return typeof target === 'string' ? new ObjectId(target) : target;
 }

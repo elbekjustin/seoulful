@@ -10,7 +10,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { MemberType } from '../../libs/enums/member.enum';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { MemberUpdate } from '../../libs/dto/member/member.update';
-import { getSerialForImage, shapeIntoMongoObjectid, validMimeTypes } from '../../libs/config';
+import { getSerialForImage, shapeIntoMongoObjectId, validMimeTypes } from '../../libs/config';
 import { WithoutGuard } from '../auth/guards/without.guard';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
 import { createWriteStream } from 'fs';
@@ -65,7 +65,7 @@ export class MemberResolver {
     @AuthMember('_id') memberId: ObjectId): Promise<Member> {
         console.log('Query: getMember');
         console.log('memberId:', memberId);
-        const targetId = shapeIntoMongoObjectid(input);
+        const targetId = shapeIntoMongoObjectId(input);
         return await this.memberService.getMember(memberId, targetId);
     }
 
@@ -104,8 +104,8 @@ public async updateMemberByAdmin(
 @Mutation((returns) => String)
 public async imageUploader(
 	@Args({ name: 'file', type: () => GraphQLUpload })
-{ createReadStream, filename, mimetype }: FileUpload,
-@Args('target') target: String,
+{ createReadStream, filename, mimetype }: FileUpload, //Distraction, FileUpload ga tegishli bolganlarni qabul qildik
+@Args('target') target: String,  // Qaysi manzilga saqlashni belgilash - target
 ): Promise<string> {
 	console.log('Mutation: imageUploader');
 
@@ -115,14 +115,15 @@ if (!validMime) throw new Error(Message.PROVIDE_ALLOWED_FORMAT);
 
 const imageName = getSerialForImage(filename);
 const url = `uploads/${target}/${imageName}`;
-const stream = createReadStream();
+const stream = createReadStream();  // qismni kesib olib, o'qish imkoni
 
 const result = await new Promise((resolve, reject) => {
-	stream
-		.pipe(createWriteStream(url))
-		.on('finish', async () => resolve(true))
-		.on('error', () => reject(false));
+    stream // Fayl oqimini o'qish boshlanadi
+        .pipe(createWriteStream(url)) // O'qilgan faylni yozish boshlanadi
+        .on('finish', () => resolve(true)) // Yozish tugadi: muvaffaqiyat
+        .on('error', () => reject(false)); // Xato: muvaffaqiyatsizlik
 });
+
 if (!result) throw new Error(Message.UPLOAD_FAILED);
 
 return url;
