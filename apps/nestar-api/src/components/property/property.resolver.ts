@@ -52,7 +52,7 @@ public async updateProperty(
 }
 
 @UseGuards(WithoutGuard)
-@Query((returns) => Property)
+@Query((returns) => Properties)
 public async getProperties(
   @Args('input') input: PropertiesInquiry,
   @AuthMember('_id') memberId: ObjectId,
@@ -105,8 +105,6 @@ public async removePropertyByAdmin(@Args('propertyId') input: string): Promise<P
   const propertyId = shapeIntoMongoObjectId(input);
   return await this.propertyService.removePropertyByAdmin(propertyId);
 }
-
-
 
 }
 
