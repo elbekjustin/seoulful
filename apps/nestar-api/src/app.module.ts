@@ -11,13 +11,13 @@ import { T } from './libs/types/common';
 @Module({
 	imports: [
 		ConfigModule.forRoot(), //.env done
-		GraphQLModule.forRoot({
+		GraphQLModule.forRoot({ // Rest API => GraphQL API
 			driver: ApolloDriver, // Apollo GraphQL serveri uchun driver/kutubxona
 			playground: true,
 			uploads: false,
 			debug: true, // Debug ma'lumotlar
 			autoSchemaFile: true,
-      formatError: (error: T) => {
+      formatError: (error: T) => { // GraphQL error global handling
         const graphQLFormattedError = {
           code: error?.extensions.code,
           message:

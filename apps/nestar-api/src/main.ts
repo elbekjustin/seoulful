@@ -8,7 +8,7 @@ import * as express from 'express'
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 	app.useGlobalPipes(new ValidationPipe());
-	app.useGlobalInterceptors(new LoggingInterceptor());
+	app.useGlobalInterceptors(new LoggingInterceptor()); // loglash
 	app.enableCors({ origin: true, credentials: true }); // ixtiyoriy requestni qabul qilishga imkon
 
 	app.use(graphqlUploadExpress({ maxFileSize: 15000000, maxFiles: 10 })); // limit 15MG
