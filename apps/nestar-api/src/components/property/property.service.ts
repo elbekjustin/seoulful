@@ -220,7 +220,7 @@ console.log("result:", result);
 /** LIKE **/
 
 
-public async likeTargetProperty(memberId: ObjectId, likeRefId: ObjectId): Promise<Property> {
+public async likeTargetProperty(propertyId: ObjectId, likeRefId: ObjectId): Promise<Property> {
   const target: Property = await this.propertyModel.findOne({
     _id: likeRefId,
     propertyStatus: PropertyStatus.ACTIVE,
@@ -229,7 +229,7 @@ public async likeTargetProperty(memberId: ObjectId, likeRefId: ObjectId): Promis
   if (!target) throw new InternalServerErrorException(Message.NO_DATA_FOUND); // Nega kerak? frontda like bosish imkoni borligini ozi yetarli emasmi ? 
 
   const input: LikeInput = {
-    memberId: memberId, // Like qiluvchi foydalanuvchi
+    memberId: propertyId, // Like qiluvchi foydalanuvchi
     likeRefId: likeRefId, // Like qilingan member
     likeGroup: LikeGroup.PROPERTY, 
   };
