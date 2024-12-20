@@ -12,6 +12,9 @@ import { ViewService } from '../view/view.service';
 import { PropertyUpdate } from '../../libs/dto/property/property.update';
 import * as moment from 'moment';
 import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
+import { LikeService } from '../like/like.service';
+import { LikeInput } from '../../libs/dto/like/like.input';
+import { LikeGroup } from '../../libs/enums/like.enum';
 
 
 @Injectable()
@@ -20,6 +23,7 @@ export class PropertyService {
     @InjectModel('Property') private readonly propertyModel: Model<Property>,
     private memberService: MemberService,
     private viewService: ViewService,
+    private likeService: LikeService,
   ) {}
 
   public async createProperty(input: PropertyInput): Promise<Property> {
@@ -211,6 +215,37 @@ console.log("result:", result);
   return result[0];
 }
 
+/** LIKE **/
+
+
+public async likeTargetProperty(memberId: ObjectId, likeRefId: ObjectId): Promise<Property> {
+  const target: Property = await this.propertyModel.findOne({
+    _id: likeRefId,
+    propertyStatus: PropertyStatus.ACTIVE,
+  }).exec();
+
+  if (!target) throw new InternalServerErrorException(Message.NO_DATA_FOUND); // Nega kerak? frontda like bosish imkoni borligini ozi yetarli emasmi ? 
+
+  const input: LikeInput = {
+    memberId: memberId, // Like qiluvchi foydalanuvchi
+    likeRefId: likeRefId, // Like qilingan member
+    likeGroup: LikeGroup.PROPERTY, 
+  };
+
+  // LIKE TOGGLE = Like modifikatsiya qilish (qo‘shish yoki olib tashlash)
+  const modifier: number = await this.likeService.toggleLike(input);
+  const result = await this.propertyStatsEditor({
+    _id: likeRefId,
+    targetKey: 'propertyLikes',
+    modifier: modifier,
+  });
+
+  if (!result) throw new InternalServerErrorException(Message.SOMETHING_WENT_WRONG);
+  return result;
+}
+
+
+/** ADMIN **/
 
 public async getAllPropertiesByAdmin(input: AllPropertiesInquiry): Promise<Properties> {
   const { propertyStatus, propertyLocationList } = input.search;

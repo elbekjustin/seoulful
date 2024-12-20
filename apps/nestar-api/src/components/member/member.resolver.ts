@@ -77,6 +77,7 @@ export class MemberResolver {
     return await this.memberService.getAgents(memberId, input);
     }
 
+    /** LIKE MEMBER **/
 
     @UseGuards(AuthGuard)
     @Mutation(() => Member)
