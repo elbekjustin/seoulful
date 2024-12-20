@@ -84,11 +84,11 @@ public async getMember(memberId: ObjectId, targetId: ObjectId): Promise<Member> 
   const search: T = {
     _id: targetId,
     memberStatus: {
-      $in: [MemberStatus.ACTIVE, MemberStatus.BLOCK],
+      $in: [MemberStatus.ACTIVE, MemberStatus.BLOCK], // ?  ========================
     },
   };
 
-  const targetMember = await this.memberModel.findOne(search).lean().exec();
+  const targetMember = await this.memberModel.findOne(search).exec();
   if (!targetMember)
     throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
@@ -106,9 +106,10 @@ public async getMember(memberId: ObjectId, targetId: ObjectId): Promise<Member> 
     }
   } 
 
-  //me liked
+  // meLiked
+  const likeInput = { memberId: memberId, likeRefId: targetId, likeGroup: LikeGroup.MEMBER };
+  targetMember.meLiked = await this.likeService.checkLikeExistence(likeInput);
   // me follewed
-
   return targetMember;
 }
 
