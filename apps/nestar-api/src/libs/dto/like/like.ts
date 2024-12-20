@@ -8,7 +8,7 @@ export class MeLiked { // javob: bosgan likeni ko'rish
 	memberId: ObjectId;
 
 	@Field(() => String)
-	likeRefId: ObjectId;
+	likeRefId: ObjectId; // like qabul qilgan odam
 
 	@Field(() => Boolean)
 	myFavorite: boolean;
@@ -23,10 +23,10 @@ export class Like { // like hosil bolganda
 	likeGroup: LikeGroup;
 
 	@Field(() => String)
-	likeRefId: ObjectId;
+	likeRefId: ObjectId; // like qabul qilgan odam
 
 	@Field(() => String)
-	memberId: ObjectId;
+	memberId: ObjectId; 
 
 	@Field(() => Date)
 	createdAt: Date;

@@ -1,7 +1,4 @@
 import { registerEnumType } from '@nestjs/graphql';
-// registerEnumType:
-// NestJS GraphQL moduli bilan ishlaganda enum turlarini
-// GraphQL shemasida ishlatish uchun ro'yxatdan o'tkazadi.
 
 export enum MemberType {
 	USER = 'USER',
