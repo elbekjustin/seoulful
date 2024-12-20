@@ -189,7 +189,7 @@ public async memberStatsEditor(input: StatisticModifier): Promise<Member> {
   const { _id, targetKey, modifier } = input;
   return await this.memberModel
     .findByIdAndUpdate(
-      { _id },
+       _id ,
       {
         $inc: { [targetKey]: modifier },
       },

@@ -26,8 +26,6 @@ export class CommentResolver {
     console.log('Mutation: createComment');
     console.log("input=1=", input ); // nega ishlamadi ?
     return await this.commentService.createComment(memberId, input);
-    console.log("input=2=", input ); // nega ishlamadi ?
-
   }
 
 

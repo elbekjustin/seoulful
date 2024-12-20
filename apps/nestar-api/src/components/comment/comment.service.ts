@@ -58,6 +58,8 @@ export class CommentService {
     }
 
     if (!result) throw new InternalServerErrorException(Message.CREATE_FAILED);
+    console.log("input=2=", input ); // nega ishlamadi ?
+
     return result;
   }
 
