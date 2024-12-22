@@ -6,7 +6,7 @@ import { graphqlUploadExpress} from "graphql-upload"
 import * as express from 'express'
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule);
+	const app = await NestFactory.create(AppModule); // Server aplicationni nestda qurdik
 	app.useGlobalPipes(new ValidationPipe());
 	app.useGlobalInterceptors(new LoggingInterceptor()); // loglash
 	app.enableCors({ origin: true, credentials: true }); // ixtiyoriy requestni qabul qilishga imkon
