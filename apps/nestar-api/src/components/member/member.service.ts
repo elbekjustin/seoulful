@@ -84,7 +84,7 @@ public async getMember(memberId: ObjectId, targetId: ObjectId): Promise<Member> 
   const search: T = {
     _id: targetId,
     memberStatus: {
-      $in: [MemberStatus.ACTIVE, MemberStatus.BLOCK], // ?  ========================
+      $in: [MemberStatus.ACTIVE, MemberStatus.BLOCK],
     },
   };
 
