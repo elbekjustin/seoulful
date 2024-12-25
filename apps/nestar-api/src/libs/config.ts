@@ -73,7 +73,7 @@ export const lookupAuthMemberFollowed = (input: LookupAuthMemberFollowed) => {
   return {
     $lookup: {
       from: 'follows',
-      let: {
+      let: { // local variables
         localFollowerId: followerId,
         localFollowingId: followingId,
         localMyFavorite: true,
@@ -83,7 +83,7 @@ export const lookupAuthMemberFollowed = (input: LookupAuthMemberFollowed) => {
           $match: {
             $expr: {
               $and: [
-                { $eq: ['$followerId', '$$localFollowerId'] },
+                { $eq: ['$followerId', '$$localFollowerId'] }, // taqqoslash
                 { $eq: ['$followingId', '$$localFollowingId'] },
               ],
             },
@@ -91,7 +91,7 @@ export const lookupAuthMemberFollowed = (input: LookupAuthMemberFollowed) => {
         },
         {
           $project: {
-            _id: 0,
+            _id: 0, // skip
             followerId: 1,
             followingId: 1,
             myFollowing: '$$localMyFavorite',
@@ -129,6 +129,15 @@ export const lookupFollowerData = {
     localField: 'followerId',
     foreignField: '_id',
     as: 'followerData',
+  },
+};
+
+export const lookupFavorite = {
+  $lookup: {
+    from: 'members',
+    localField: 'favoriteProperty.memberId',
+    foreignField: '_id',
+    as: 'favoriteProperty.memberData',
   },
 };
 
