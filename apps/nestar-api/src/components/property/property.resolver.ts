@@ -82,7 +82,6 @@ export class PropertyResolver {
     return await this.propertyService.getVisited(memberId, input);
   }
 
-
   @Roles(MemberType.AGENT)
   @UseGuards(RolesGuard)
   @Query((returns) => Properties)
@@ -93,9 +92,6 @@ export class PropertyResolver {
     console.log('Query: getAgentProperties');
     return await this.propertyService.getAgentProperties(memberId, input);
   }
-
-
-/** LIKE **/
 
   @UseGuards(AuthGuard)
   @Mutation(() => Property)
@@ -108,7 +104,7 @@ export class PropertyResolver {
     return await this.propertyService.likeTargetProperty(memberId, likeRefId);
   }
 
-  /** ADMIN **/
+    /** ADMIN **/
 
   @Roles(MemberType.ADMIN)
   @UseGuards(RolesGuard)
