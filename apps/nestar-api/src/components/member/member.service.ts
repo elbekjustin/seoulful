@@ -41,25 +41,21 @@ export class MemberService {
     }
       
     public async login(input: LoginInput): Promise<Member> {
-      console.log("======1");
   const { memberNick, memberPassword } = input;
   const response: Member = await this.memberModel
     .findOne({ memberNick: memberNick })
     .select('+memberPassword')
     .exec();
-      console.log("======2");
 
   if (!response || response.memberStatus === MemberStatus.DELETE) {
     throw new InternalServerErrorException(Message.NO_MEMBER_NICK);
   } else if (response.memberStatus === MemberStatus.BLOCK) {
     throw new InternalServerErrorException(Message.BLOCKED_USER);
   }
-      console.log("======3");
 
   const isMatch = await this.authService.comparePasswords(input.memberPassword, response.memberPassword);  
   if (!isMatch) throw new InternalServerErrorException(Message.WRONG_PASSWORD);
   response.accessToken = await this.authService.createToken(response);
-      console.log("======4");
 
   return response;
 }

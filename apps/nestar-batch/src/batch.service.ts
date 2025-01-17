@@ -43,7 +43,7 @@ export class BatchService {
 		.exec();
 
 		const promisedList = properties.map(async (ele: Property) => {
-		const { _id, propertyLikes, propertyViews } = ele;
+		const { _id, propertyLikes, propertyViews } = ele; 
 		const rank = propertyLikes * 2 + propertyViews * 1;
 		return await this.propertyModel.findByIdAndUpdate(_id, { propertyRank: rank });
 		});
@@ -72,9 +72,6 @@ export class BatchService {
 
 	  await Promise.all(promisedList);
 	}
-
-
-
 
 	public getHello(): string {
 		return 'Welcome to Nestar BATCH Server!';
