@@ -68,7 +68,7 @@ export class PropertyUpdate {
   @Field(() => Boolean, { nullable: true })
   propertyRent?: boolean;
 
-  soldAt?: Date;
+  hiddenAt?: Date;
   deletedAt?: Date;
 
   @IsOptional()

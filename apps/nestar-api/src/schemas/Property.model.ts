@@ -96,7 +96,7 @@ const PropertySchema = new Schema(
 			ref: 'Member',
 		},
 
-		soldAt: {
+		hiddenAt: {
 			type: Date,
 		},
 
