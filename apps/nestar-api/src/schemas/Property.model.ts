@@ -31,11 +31,6 @@ const PropertySchema = new Schema(
 			required: true,
 		},
 
-		propertyPrice: {
-			type: Number,
-			required: true,
-		},
-
 		propertySquare: {
 			type: Number,
 			required: true,
@@ -96,7 +91,7 @@ const PropertySchema = new Schema(
 			ref: 'Member',
 		},
 
-		hiddenAt: {
+		soldAt: {
 			type: Date,
 		},
 
@@ -111,6 +106,6 @@ const PropertySchema = new Schema(
 	{ timestamps: true, collection: 'properties' },
 );
 
-PropertySchema.index({ propertyType: 1, propertyLocation: 1, propertyTitle: 1, propertyPrice: 1 }, { unique: true });
+PropertySchema.index({ propertyType: 1, propertyLocation: 1, propertyTitle: 1}, { unique: true });
 
 export default PropertySchema;

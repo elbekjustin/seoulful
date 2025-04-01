@@ -25,9 +25,6 @@ export class Property {
   propertyTitle: string;
 
   @Field(() => Number)
-  propertyPrice: number;
-
-  @Field(() => Number)
   propertySquare: number;
 
   @Field(() => Int)
@@ -64,7 +61,7 @@ export class Property {
   memberId: ObjectId;
 
   @Field(() => Date, { nullable: true })
-  hiddenAt?: Date;
+  soldAt?: Date;
 
   @Field(() => Date, { nullable: true })
   deletedAt?: Date;

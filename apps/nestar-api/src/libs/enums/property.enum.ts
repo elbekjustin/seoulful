@@ -1,16 +1,18 @@
 import { registerEnumType } from '@nestjs/graphql';
 
 export enum PropertyType {
-  SCENIC_VIEWS = 'SCENIC_VIEWS', // 🌆 City view, sunset/sunrise joylar
-  PHOTO_SPOTS = 'PHOTO_SPOTS', // 📷 Instagram-friendly joylar
-  MOSQUES = 'MOSQUES', // 🕌 Masjidlar
-  HALAL_SHOPS = 'HALAL_SHOPS', // 🛍️ Halal do‘konlar
-  HALAL_RESTAURANTS = 'HALAL_RESTAURANTS', // 🍛 Halal restoranlar
-  RELAX_CAFES = 'RELAX_CAFES', // ☕ Tinch kafelar
-  CULTURE_HISTORY = 'CULTURE_HISTORY', // 🎨 Muzey, tarixiy joylar
-  EVENTS_FESTIVALS = 'EVENTS_FESTIVALS', // 🎉 Tadbirlar
-  HIDDEN_SPOTS = 'HIDDEN_SPOTS', // 🧘 Maxfiy, qiziqarli joylar
+  SCENIC_VIEWS = 'SCENIC VIEWS',           // 🌆 City view, sunset/sunrise joylar
+  PHOTO_SPOTS = 'PHOTO SPOTS',             // 📷 Instagram-friendly joylar
+  UNIQUE_CAFES = 'UNIQUE CAFES',           // ☕ Konseptual, go‘zal, dam olish uchun
+  CULTURAL_PLACES = 'CULTURAL PLACES',     // 🎨 Muzey, teatr, tarixiy joylar
+  NIGHT_VIBES = 'NIGHT VIBES',             // 🌙 Night view, light, music joylar
+  RELAXING_SPOTS = 'RELAXING SPOTS',       // 🧘 Park, forest walk, jim joylar
+  EVENTS_FESTIVALS = 'EVENTS & FESTIVALS', // 🎉 Festival, bazar, ochiq tadbirlar
+  HIDDEN_SPOTS = 'HIDDEN SPOTS',           // 🚪 Kam taniqli, go‘zal joylar
+  HALAL_RESTAURANTS = 'HALAL RESTAURANTS', // 🍛 Halal restoranlar
+  MOSQUES = 'MOSQUES',                     // 🕌 Masjidlar
 }
+
 registerEnumType(PropertyType, {
   name: 'PropertyType',
 });

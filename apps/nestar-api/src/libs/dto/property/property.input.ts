@@ -27,10 +27,6 @@ export class PropertyInput {
 
   @IsNotEmpty()
   @Field(() => Number)
-  propertyPrice: number;
-
-  @IsNotEmpty()
-  @Field(() => Number)
   propertySquare: number;
 
   @IsNotEmpty()

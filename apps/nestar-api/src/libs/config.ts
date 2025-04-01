@@ -9,7 +9,6 @@ export const availablePropertySorts = [
   'propertyLikes',
   'propertyViews',
   'propertyRank',
-  'propertyPrice',
 ];
 export const availableBoardArticleSorts = ['createdAt', 'updatedAt', 'articleLikes', 'articleViews'];
 export const availableCommentSorts = ['createdAt', 'updatedAt'];
