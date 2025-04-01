@@ -24,14 +24,11 @@ export class Property {
   @Field(() => String)
   propertyTitle: string;
 
-  @Field(() => Number)
-  propertySquare: number;
+  @Field(() => [String])
+  atmosphere: string[];
 
-  @Field(() => Int)
-  propertyBeds: number;
-
-  @Field(() => Int)
-  propertyRooms: number;
+  @Field(() => [String])
+  recommendedFor: string[];
 
   @Field(() => Int)
   propertyViews: number;
@@ -52,10 +49,10 @@ export class Property {
   propertyDesc?: string;
 
   @Field(() => Boolean)
-  propertyBarter: boolean;
+  hasParking: boolean;
 
   @Field(() => Boolean)
-  propertyRent: boolean;
+  open24Hours: boolean;
 
   @Field(() => String)
   memberId: ObjectId;

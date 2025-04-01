@@ -1,5 +1,5 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
-import { IsInt, IsNotEmpty, IsOptional, Length, Min } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql';
+import { IsNotEmpty, IsOptional, Length } from 'class-validator';
 import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
 import { ObjectId } from 'mongoose';
 
@@ -32,20 +32,12 @@ export class PropertyUpdate {
   propertyTitle?: string;
 
   @IsOptional()
-  @Field(() => Number, { nullable: true })
-  propertySquare?: number;
+  @Field(() => [String], { nullable: true })
+  atmosphere?: string[];
 
   @IsOptional()
-  @IsInt()
-  @Min(1)
-  @Field(() => Int, { nullable: true })
-  propertyBeds?: number;
-
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  @Field(() => Int, { nullable: true })
-  propertyRooms?: number;
+  @Field(() => [String], { nullable: true })
+  recommendedFor?: string[];
 
   @IsOptional()
   @Field(() => [String], { nullable: true })
@@ -58,16 +50,17 @@ export class PropertyUpdate {
 
   @IsOptional()
   @Field(() => Boolean, { nullable: true })
-  propertyBarter?: boolean;
+  hasParking?: boolean;
 
   @IsOptional()
   @Field(() => Boolean, { nullable: true })
-  propertyRent?: boolean;
-
-  soldAt?: Date;
-  deletedAt?: Date;
+  open24Hours?: boolean;
 
   @IsOptional()
   @Field(() => Date, { nullable: true })
   constructedAt?: Date;
+
+  // optional fields without decorators, for internal use
+  soldAt?: Date;
+  deletedAt?: Date;
 }

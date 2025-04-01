@@ -26,20 +26,13 @@ export class PropertyInput {
   propertyTitle: string;
 
   @IsNotEmpty()
-  @Field(() => Number)
-  propertySquare: number;
+  @IsInt()
+  @Field(() => [String])
+  atmosphere: string[];
 
   @IsNotEmpty()
-  @IsInt()
-  @Min(1)
-  @Field(() => Int)
-  propertyBeds: number;
-
-  @IsNotEmpty()
-  @IsInt()
-  @Min(1)
-  @Field(() => Int)
-  propertyRooms: number;
+  @Field(() => [String])
+  recommendedFor: string[];
 
   @IsNotEmpty()
   @Field(() => [String])
@@ -52,11 +45,11 @@ export class PropertyInput {
 
   @IsOptional()
   @Field(() => Boolean, { nullable: true })
-  propertyBarter?: boolean;
+  hasParking?: boolean;
 
   @IsOptional()
   @Field(() => Boolean, { nullable: true })
-  propertyRent?: boolean;
+  open24Hours?: boolean;
 
   memberId?: ObjectId;
 
@@ -67,15 +60,6 @@ export class PropertyInput {
 
 @InputType()
 export class PricesRange {
-  @Field(() => Int)
-  start: number;
-
-  @Field(() => Int)
-  end: number;
-}
-
-@InputType()
-export class SquaresRange {
   @Field(() => Int)
   start: number;
 
@@ -127,10 +111,6 @@ class PISearch {
   @IsOptional()
   @Field(() => PeriodsRange, { nullable: true })
   periodsRange?: PeriodsRange;
-
-  @IsOptional()
-  @Field(() => SquaresRange, { nullable: true })
-  squaresRange?: SquaresRange;
 
   @IsOptional()
   @Field(() => String, { nullable: true })

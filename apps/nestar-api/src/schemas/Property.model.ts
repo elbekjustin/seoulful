@@ -31,18 +31,13 @@ const PropertySchema = new Schema(
 			required: true,
 		},
 
-		propertySquare: {
-			type: Number,
+		atmosphere: {
+			type: String,
 			required: true,
 		},
 
-		propertyBeds: {
-			type: Number,
-			required: true,
-		},
-
-		propertyRooms: {
-			type: Number,
+		recommendedFor: {
+			type: String,
 			required: true,
 		},
 
@@ -75,15 +70,16 @@ const PropertySchema = new Schema(
 			type: String,
 		},
 
-		propertyBarter: {
+		hasParking: {
 			type: Boolean,
 			default: false,
 		},
 
-		propertyRent: {
+		open24Hours: {
 			type: Boolean,
 			default: false,
 		},
+
 
 		memberId: {
 			type: Schema.Types.ObjectId,

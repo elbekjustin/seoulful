@@ -144,20 +144,17 @@ private shapeMatchQuery(match: T, input: PropertiesInquiry): void {
     bedsList,
     typeList,
     periodsRange,
-    pricesRange,
-    squaresRange,
     options,
     text,
   } = input.search;
 
   if (memberId) match.memberId = shapeIntoMongoObjectId(memberId);
   if (locationList && locationList.length) match.propertyLocation = { $in: locationList };
-  if (roomsList && roomsList.length) match.propertyRooms = { $in: roomsList };
-  if (bedsList && bedsList.length) match.propertyBeds = { $in: bedsList };
+  if (roomsList && roomsList.length) match.recommendedFor = { $in: roomsList };
+  if (bedsList && bedsList.length) match.atmosphere = { $in: bedsList };
   if (typeList && typeList.length) match.propertyType = { $in: typeList };
 
   if (periodsRange) match.createdAt = { $gte: periodsRange.start, $lte: periodsRange.end };
-  if (squaresRange) match.propertySquare = { $gte: squaresRange.start, $lte: squaresRange.end };
 
   if (text) match.propertyTitle = { $regex: new RegExp(text, 'i') };
 
