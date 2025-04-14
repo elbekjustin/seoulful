@@ -1,15 +1,15 @@
 import { registerEnumType } from '@nestjs/graphql';
 
 export enum PropertyType {
-  SCENIC_VIEWS = 'SCENIC VIEWS',           // 🌆 City view, sunset/sunrise joylar
-  PHOTO_SPOTS = 'PHOTO SPOTS',             // 📷 Instagram-friendly joylar
-  UNIQUE_CAFES = 'UNIQUE CAFES',           // ☕ Konseptual, go‘zal, dam olish uchun
-  CULTURAL_PLACES = 'CULTURAL PLACES',     // 🎨 Muzey, teatr, tarixiy joylar
-  NIGHT_VIBES = 'NIGHT VIBES',             // 🌙 Night view, light, music joylar
-  RELAXING_SPOTS = 'RELAXING SPOTS',       // 🧘 Park, forest walk, jim joylar
-  EVENTS_FESTIVALS = 'EVENTS & FESTIVALS', // 🎉 Festival, bazar, ochiq tadbirlar
-  HIDDEN_SPOTS = 'HIDDEN SPOTS',           // 🚪 Kam taniqli, go‘zal joylar
-  HALAL_RESTAURANTS = 'HALAL RESTAURANTS', // 🍛 Halal restoranlar
+  SCENIC_VIEWS = 'SCENIC_VIEWS',           // 🌆 City view, sunset/sunrise joylar
+  PHOTO_SPOTS = 'PHOTO_SPOTS',             // 📷 Instagram-friendly joylar
+  UNIQUE_CAFES = 'UNIQUE_CAFES',           // ☕ Konseptual, go‘zal, dam olish uchun
+  CULTURAL_PLACES = 'CULTURAL_PLACES',     // 🎨 Muzey, teatr, tarixiy joylar
+  NIGHT_VIBES = 'NIGHT_VIBES',             // 🌙 Night view, light, music joylar
+  RELAXING_SPOTS = 'RELAXING_SPOTS',       // 🧘 Park, forest walk, jim joylar
+  EVENTS_FESTIVALS = 'EVENTS_FESTIVALS',   // 🎉 Festival, bazar, ochiq tadbirlar
+  HIDDEN_SPOTS = 'HIDDEN_SPOTS',           // 🚪 Kam taniqli, go‘zal joylar
+  HALAL_RESTAURANTS = 'HALAL_RESTAURANTS', // 🍛 Halal restoranlar
   MOSQUES = 'MOSQUES',                     // 🕌 Masjidlar
 }
 

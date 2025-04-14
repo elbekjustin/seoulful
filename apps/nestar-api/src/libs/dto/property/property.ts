@@ -58,7 +58,7 @@ export class Property {
   memberId: ObjectId;
 
   @Field(() => Date, { nullable: true })
-  soldAt?: Date;
+  hiddenAt?: Date;
 
   @Field(() => Date, { nullable: true })
   deletedAt?: Date;

@@ -26,7 +26,6 @@ export class PropertyInput {
   propertyTitle: string;
 
   @IsNotEmpty()
-  @IsInt()
   @Field(() => [String])
   atmosphere: string[];
 
@@ -59,25 +58,6 @@ export class PropertyInput {
 }
 
 @InputType()
-export class PricesRange {
-  @Field(() => Int)
-  start: number;
-
-  @Field(() => Int)
-  end: number;
-}
-
-@InputType()
-export class PeriodsRange {
-  @Field(() => Date)
-  start: Date;
-
-  @Field(() => Date)
-  end: Date;
-}
-
-
-@InputType()
 class PISearch {
   @IsOptional()
   @Field(() => String, { nullable: true })
@@ -88,16 +68,16 @@ class PISearch {
   locationList?: PropertyLocation[];
 
   @IsOptional()
-  @Field(() => [PropertyType], { nullable: true })
-  typeList?: PropertyType[];
+  @Field(() => PropertyType, { nullable: true })
+  typeList?: PropertyType;
 
   @IsOptional()
-  @Field(() => [Int], { nullable: true })
-  roomsList?: Number[];
+  @Field(() => [String], { nullable: true })
+  recommendedList?: string[];
 
   @IsOptional()
-  @Field(() => [Int], { nullable: true })
-  bedsList?: Number[];
+  @Field(() => [String], { nullable: true })
+  atmosphereList?: string[];
 
   @IsOptional()
   @IsIn(availableOptions, { each: true })
@@ -105,18 +85,9 @@ class PISearch {
   options?: string[];
 
   @IsOptional()
-  @Field(() => PricesRange, { nullable: true })
-  pricesRange?: PricesRange;
-
-  @IsOptional()
-  @Field(() => PeriodsRange, { nullable: true })
-  periodsRange?: PeriodsRange;
-
-  @IsOptional()
   @Field(() => String, { nullable: true })
   text?: string;
 }
-
 
 @InputType()
 export class PropertiesInquiry {

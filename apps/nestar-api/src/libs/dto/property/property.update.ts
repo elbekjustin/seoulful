@@ -61,6 +61,6 @@ export class PropertyUpdate {
   constructedAt?: Date;
 
   // optional fields without decorators, for internal use
-  soldAt?: Date;
+  hiddenAt?: Date;
   deletedAt?: Date;
 }

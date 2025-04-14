@@ -5,7 +5,7 @@ const PropertySchema = new Schema(
 	{
 		propertyType: {
 			type: String,
-			enum: PropertyType,
+			enum: Object.values(PropertyType),		
 			required: true,
 		},
 
@@ -32,12 +32,12 @@ const PropertySchema = new Schema(
 		},
 
 		atmosphere: {
-			type: String,
+			type: [String],
 			required: true,
 		},
 
 		recommendedFor: {
-			type: String,
+			type: [String],
 			required: true,
 		},
 
@@ -87,9 +87,9 @@ const PropertySchema = new Schema(
 			ref: 'Member',
 		},
 
-		soldAt: {
-			type: Date,
-		},
+		// hiddenAt: {
+		// 	type: Date,
+		// },
 
 		deletedAt: {
 			type: Date,

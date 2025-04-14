@@ -70,14 +70,14 @@ export class PropertyService {
 
 
 public async updateProperty(memberId: ObjectId, input: PropertyUpdate): Promise<Property> {
-  let { propertyStatus, soldAt, deletedAt } = input;
+  let { propertyStatus, hiddenAt, deletedAt } = input;
   const search: T = {
     _id: input._id,
     memberId: memberId,
     propertyStatus: PropertyStatus.ACTIVE,
   };
 
-  if (propertyStatus === PropertyStatus.HIDDEN) soldAt = moment().toDate();
+  if (propertyStatus === PropertyStatus.HIDDEN) hiddenAt = moment().toDate();
   else if (propertyStatus === PropertyStatus.DELETE) deletedAt = moment().toDate();
 
   const result = await this.propertyModel
@@ -88,7 +88,7 @@ public async updateProperty(memberId: ObjectId, input: PropertyUpdate): Promise<
 
   if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
 
-  if (soldAt || deletedAt) {
+  if (hiddenAt || deletedAt) {
     await this.memberService.memberStatsEditor({
       _id: memberId,
       targetKey: 'memberProperties',
@@ -140,21 +140,18 @@ private shapeMatchQuery(match: T, input: PropertiesInquiry): void {
   const {
     memberId,
     locationList,
-    roomsList,
-    bedsList,
+    atmosphereList,
+    recommendedList,
     typeList,
-    periodsRange,
     options,
     text,
   } = input.search;
 
   if (memberId) match.memberId = shapeIntoMongoObjectId(memberId);
   if (locationList && locationList.length) match.propertyLocation = { $in: locationList };
-  if (roomsList && roomsList.length) match.recommendedFor = { $in: roomsList };
-  if (bedsList && bedsList.length) match.atmosphere = { $in: bedsList };
+  if (atmosphereList && atmosphereList.length) match.recommendedFor = { $in: atmosphereList };
+  if (recommendedList && recommendedList.length) match.atmosphere = { $in: recommendedList };
   if (typeList && typeList.length) match.propertyType = { $in: typeList };
-
-  if (periodsRange) match.createdAt = { $gte: periodsRange.start, $lte: periodsRange.end };
 
   if (text) match.propertyTitle = { $regex: new RegExp(text, 'i') };
 
@@ -278,13 +275,13 @@ public async getAllPropertiesByAdmin(input: AllPropertiesInquiry): Promise<Prope
 
 
 public async updatePropertyByAdmin(input: PropertyUpdate): Promise<Property> {
-  let { propertyStatus, soldAt, deletedAt } = input;
+  let { propertyStatus, hiddenAt, deletedAt } = input;
   const search: T = {
     _id: input._id,
     propertyStatus: PropertyStatus.ACTIVE,
   };
 
-  if (propertyStatus === PropertyStatus.HIDDEN) soldAt = moment().toDate();
+  if (propertyStatus === PropertyStatus.HIDDEN) hiddenAt = moment().toDate();
   else if (propertyStatus === PropertyStatus.DELETE) deletedAt = moment().toDate();
 
   const result = await this.propertyModel
@@ -294,7 +291,7 @@ public async updatePropertyByAdmin(input: PropertyUpdate): Promise<Property> {
     .exec();
   if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
 
-  if (soldAt || deletedAt) {
+  if (hiddenAt || deletedAt) {
     await this.memberService.memberStatsEditor({
       _id: result.memberId,
       targetKey: 'memberProperties',
