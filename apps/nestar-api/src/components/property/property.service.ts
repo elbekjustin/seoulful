@@ -149,18 +149,21 @@ private shapeMatchQuery(match: T, input: PropertiesInquiry): void {
 
   if (memberId) match.memberId = shapeIntoMongoObjectId(memberId);
   if (locationList && locationList.length) match.propertyLocation = { $in: locationList };
-  if (atmosphereList && atmosphereList.length) match.recommendedFor = { $in: atmosphereList };
-  if (recommendedList && recommendedList.length) match.atmosphere = { $in: recommendedList };
-  if (typeList && typeList.length) match.propertyType = { $in: typeList };
+  if (atmosphereList && atmosphereList.length) match.atmosphere = { $in: atmosphereList };
+  if (recommendedList && recommendedList.length) match.recommended = { $in: recommendedList };
+
+  if (typeList) match.propertyType = { $in: Array.isArray(typeList) ? typeList : [typeList] };
+
 
   if (text) match.propertyTitle = { $regex: new RegExp(text, 'i') };
 
-  if (options) {
+  if (options?.length) {
     match['$or'] = options.map((ele) => {
       return { [ele]: true };
     });
   }
 }
+
 
 public async getFavorites(memberId: ObjectId, input: OrdinaryInquiry): Promise<Properties> {
   return await this.likeService.getFavoriteProperties(memberId, input);

@@ -31,7 +31,7 @@ export class PropertyInput {
 
   @IsNotEmpty()
   @Field(() => [String])
-  recommendedFor: string[];
+  recommended: string[];
 
   @IsNotEmpty()
   @Field(() => [String])

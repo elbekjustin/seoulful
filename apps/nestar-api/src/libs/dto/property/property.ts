@@ -28,7 +28,7 @@ export class Property {
   atmosphere: string[];
 
   @Field(() => [String])
-  recommendedFor: string[];
+  recommended: string[];
 
   @Field(() => Int)
   propertyViews: number;

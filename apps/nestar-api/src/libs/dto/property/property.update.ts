@@ -37,7 +37,7 @@ export class PropertyUpdate {
 
   @IsOptional()
   @Field(() => [String], { nullable: true })
-  recommendedFor?: string[];
+  recommended?: string[];
 
   @IsOptional()
   @Field(() => [String], { nullable: true })

@@ -36,7 +36,7 @@ const PropertySchema = new Schema(
 			required: true,
 		},
 
-		recommendedFor: {
+		recommended: {
 			type: [String],
 			required: true,
 		},
