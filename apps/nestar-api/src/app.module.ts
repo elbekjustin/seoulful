@@ -9,6 +9,7 @@ import { ComponentsModule } from './components/components.module';
 import { DatabaseModule } from './database/database.module';
 import { T } from './libs/types/common';
 import { SocketModule } from './socket/socket.module';
+import { NotificationModule } from './components/notification/notification.module';
 @Module({
 	imports: [
 		ConfigModule.forRoot(), //.env done
@@ -31,6 +32,7 @@ import { SocketModule } from './socket/socket.module';
 		ComponentsModule,
 		DatabaseModule,
 		SocketModule,
+		NotificationModule,
 	],
 	controllers: [AppController],
 	providers: [AppService, AppResolver],
