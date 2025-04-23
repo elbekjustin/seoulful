@@ -58,7 +58,14 @@ export class PropertyService {
 			targetProperty.propertyViews++;
 		}
 
-  const likeInput = { memberId: memberId, likeRefId: propertyId, likeGroup: LikeGroup.PROPERTY };
+  const likeInput: LikeInput = { 
+    memberId: memberId, 
+    likeRefId: propertyId, 
+    likeGroup: LikeGroup.PROPERTY,
+    likeOwnerId: targetProperty.memberId,
+
+
+      };
   targetProperty.meLiked = await this.likeService.checkLikeExistence(likeInput);
   // me follewed
 	}
@@ -228,6 +235,7 @@ public async likeTargetProperty(propertyId: ObjectId, likeRefId: ObjectId): Prom
     memberId: propertyId, // Like qiluvchi foydalanuvchi
     likeRefId: likeRefId, // Like qilingan member
     likeGroup: LikeGroup.PROPERTY, 
+    likeOwnerId: target.memberId,
   };
 
   // LIKE TOGGLE = Like modifikatsiya qilish (qo‘shish yoki olib tashlash)

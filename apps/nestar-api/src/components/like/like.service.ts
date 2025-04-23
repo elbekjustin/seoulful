@@ -9,13 +9,20 @@ import { OrdinaryInquiry } from '../../libs/dto/property/property.input';
 import { Properties } from '../../libs/dto/property/property';
 import { LikeGroup } from '../../libs/enums/like.enum';
 import { lookupFavorite } from '../../libs/config';
+import { NotificationService } from '../notification/notification.service';
+import { NotificationType } from '../../libs/enums/notification.enum';
 
 @Injectable()
 export class LikeService {
-    constructor(@InjectModel('Like') private readonly likeModel: Model<Like>) {}
+    constructor(@InjectModel('Like') private readonly likeModel: Model<Like>,
+    private readonly notificationService: NotificationService,
+    ) {}
 
   public async toggleLike(input: LikeInput): Promise<number> {
-    const search: T = { memberId: input.memberId, likeRefId: input.likeRefId },
+    const search: T = { 
+      memberId: input.memberId, 
+      likeRefId: input.likeRefId,
+       },
     exist = await this.likeModel.findOne(search).exec();
   let modifier = 1;
 
@@ -24,7 +31,26 @@ export class LikeService {
       modifier = -1;
   } else {
       try {
+
       await this.likeModel.create(input);
+
+        console.log('📩 Notification yaratilyapti:', {
+        receiverId: input.likeOwnerId.toString(), // bu maydonni LikeInput ichiga qo‘shgan bo‘lishing kerak!
+        authorId: input.memberId.toString(),
+        });
+
+      await this.notificationService.createNotification({
+        notificationType: NotificationType.LIKE,
+        notificationGroup: input.likeGroup as any, // yoki `as NotificationGroup`, agar enumlar mos bo‘lsa
+        notificationTitle: 'New like',
+        notificationDesc: 'Someone liked your content',
+        receiverId: input.likeOwnerId.toString(), // bu maydonni LikeInput ichiga qo‘shgan bo‘lishing kerak!
+        authorId: input.memberId.toString(),
+        propertyId: input.likeGroup === LikeGroup.PROPERTY ? input.likeRefId.toString() : undefined,
+        articleId: input.likeGroup === LikeGroup.ARTICLE ? input.likeRefId.toString() : undefined,
+      });
+
+
       } catch (err) {
       console.log('Error, Service.model:', err.message); // qachon error hosil bo'ladi ?
       throw new BadRequestException(Message.CREATE_FAILED);

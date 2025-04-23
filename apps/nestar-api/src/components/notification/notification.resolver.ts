@@ -1,4 +1,4 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UseGuards } from '@nestjs/common';
 import { MemberType } from '../../libs/enums/member.enum';
@@ -30,6 +30,12 @@ public async getMyNotifications(
     list,
     metaCounter: [{ total }],
   };
+}
+
+
+@Mutation(() => Boolean)
+async markNotificationAsRead(@Args('id', { type: () => String }) id: string): Promise<boolean> {
+  return this.notificationService.markAsRead(id);
 }
 
 

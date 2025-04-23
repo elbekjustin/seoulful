@@ -5,8 +5,6 @@ import { Mongoose } from 'mongoose';
 import { MongooseModule } from '@nestjs/mongoose';
 import NotificationSchema from '../../schemas/Notification.model';
 import { AuthModule } from '../auth/auth.module';
-import { LikeModule } from '../like/like.module';
-import { MemberModule } from '../member/member.module';
 
 @Module({
   imports: [
@@ -16,9 +14,7 @@ import { MemberModule } from '../member/member.module';
       schema: NotificationSchema 
       },
     ]),
-     AuthModule,
-    MemberModule,
-    LikeModule,
+     AuthModule
   ],
   providers: [NotificationService, NotificationResolver],
   exports: [NotificationService],

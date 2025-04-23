@@ -9,6 +9,10 @@ export class LikeInput {
 	@Field(() => String)
 	memberId: ObjectId; // kim like bosmoqda
 
+    @IsNotEmpty()
+	@Field(() => String)
+    likeOwnerId: ObjectId;
+
 	@IsNotEmpty()
 	@Field(() => String)
 	likeRefId: ObjectId; // qaysi targetni like qilmoqda

@@ -37,8 +37,8 @@ export class FollowService {
 await this.notificationService.createNotification({
   notificationType: NotificationType.FOLLOW,
   notificationGroup: NotificationGroup.MEMBER,
-  notificationTitle: 'New follower!',
-  notificationDesc: 'Kimdir sizga obuna bo‘ldi.',
+  notificationTitle: 'New follower',
+  notificationDesc: 'You have a new follower',
   receiverId: followingId.toString(),  // ✅ String bo'lishi to‘g‘ri
   authorId: followerId.toString(),     // ✅ String bo'lishi to‘g‘ri
 });

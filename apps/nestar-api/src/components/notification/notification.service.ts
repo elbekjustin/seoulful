@@ -3,6 +3,7 @@ import { NotificationInput, NotificationInquiry } from '../../libs/dto/notificat
 import { Notification } from '../../libs/dto/notification/notification';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { NotificationStatus } from '../../libs/enums/notification.enum';
 
 @Injectable()
 export class NotificationService {
@@ -28,17 +29,33 @@ export class NotificationService {
       ...n,
       authorData: n.authorId, // frontend uchun kerakli nom
     }));
+console.log('🔍 getMyNotifications receiverId:', memberId);
 
     return list;
+
   }
 
   async createNotification(input: NotificationInput): Promise<Notification> {
     console.log('🛠️ CREATE NOTIFICATION INPUT:', input);
-    const notification = new this.notificationModel(input);
+    const notification = new this.notificationModel({
+        ...input,
+        receiverId: new Types.ObjectId(input.receiverId),
+        authorId: new Types.ObjectId(input.authorId),
+        });
     return notification.save();
   }
 
   async countMyNotifications(memberId: string): Promise<number> {
     return this.notificationModel.countDocuments({ receiverId: memberId });
   }
+
+  async markAsRead(id: string): Promise<boolean> {
+  const result = await this.notificationModel.updateOne(
+    { _id: id },
+    { $set: { notificationStatus: NotificationStatus.READ } }
+  ).exec();
+
+  return result.modifiedCount > 0;
+}
+
 }

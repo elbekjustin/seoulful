@@ -106,7 +106,12 @@ public async getMember(memberId: ObjectId, targetId: ObjectId): Promise<Member> 
     }
 
       // meLiked
-  const likeInput = { memberId: memberId, likeRefId: targetId, likeGroup: LikeGroup.MEMBER };
+const likeInput: LikeInput = {
+  memberId: memberId,
+  likeRefId: targetId,
+  likeGroup: LikeGroup.MEMBER,
+  likeOwnerId: targetId, // yoki target._id.toString()
+};
   targetMember.meLiked = await this.likeService.checkLikeExistence(likeInput);
 
      // me follewed
@@ -168,6 +173,7 @@ public async likeTargetMember(memberId: ObjectId, likeRefId: ObjectId): Promise<
     memberId: memberId, // Like qiluvchi foydalanuvchi
     likeRefId: likeRefId, // Like qilingan member
     likeGroup: LikeGroup.MEMBER, 
+    likeOwnerId: memberId,
   };
 
   // LIKE TOGGLE = Like modifikatsiya qilish (qo‘shish yoki olib tashlash)
