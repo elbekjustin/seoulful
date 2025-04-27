@@ -61,7 +61,7 @@ export class BoardArticleService {
       targetBoardArticle.articleViews++;
     }
 
-   const likeInput = { memberId: memberId, likeRefId: articleId, likeGroup: LikeGroup.ARTICLE };
+   const likeInput = { memberId: memberId, likeRefId: articleId, likeGroup: LikeGroup.ARTICLE, likeOwnerId: targetBoardArticle.memberId,  };
   targetBoardArticle.meLiked = await this.likeService.checkLikeExistence(likeInput);
   }
 
@@ -146,6 +146,8 @@ public async likeTargetBoardArticle(memberId: ObjectId, likeRefId: ObjectId): Pr
     memberId: memberId, // Like qiluvchi foydalanuvchi
     likeRefId: likeRefId, // Like qilingan member
     likeGroup: LikeGroup.ARTICLE, 
+    likeOwnerId: target.memberId,
+
   };
 
   // LIKE TOGGLE = Like modifikatsiya qilish (qo‘shish yoki olib tashlash)
