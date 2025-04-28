@@ -124,7 +124,7 @@ export class PropertyResolver {
   public async updatePropertyByAdmin(@Args('input') input: PropertyUpdate): Promise<Property> {
     console.log('Mutation: updatePropertyByAdmin');
     input._id = shapeIntoMongoObjectId(input._id);
-    return await this.propertyService.updatePropertyByAdmin(input);
+    return await this.propertyService.updatePropertyByAdmin(input._id, input);
   }
 
 

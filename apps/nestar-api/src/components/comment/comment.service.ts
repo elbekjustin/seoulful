@@ -7,7 +7,7 @@ import { BoardArticleService } from '../board-article/board-article.service';
 import { CommentInput, CommentsInquiry } from '../../libs/dto/comment/comment.input';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { CommentGroup, CommentStatus } from '../../libs/enums/comment.enum';
-import { Comments, Comment } from '../../libs/dto/comment/comment'; 
+import { Comments, Comment } from '../../libs/dto/comment/comment';
 import { CommentUpdate } from '../../libs/dto/comment/comment.update';
 import { lookupMember } from '../../libs/config';
 import { T } from '../../libs/types/common';
@@ -51,7 +51,7 @@ export class CommentService {
         });
         break;
       case CommentGroup.MEMBER:
-        await this.memberService.memberStatsEditor({
+        await this.memberService.memberStatusEditor({
           _id: input.commentRefId,
           targetKey: 'memberComments',
           modifier: 1,
@@ -62,19 +62,13 @@ export class CommentService {
     let targetMemberId: string;
 
     if (input.commentGroup === CommentGroup.PROPERTY) {
-      const property = await this.propertyService.getProperty(
-        memberId,
-        input.commentRefId
-      );
+      const property = await this.propertyService.getProperty(memberId, input.commentRefId);
       if (!property || !property.memberId) {
         throw new InternalServerErrorException('Property not found');
       }
       targetMemberId = property.memberId.toString();
     } else if (input.commentGroup === CommentGroup.ARTICLE) {
-      const article = await this.boardArticleService.getBoardArticle(
-        memberId,
-        input.commentRefId
-      );
+      const article = await this.boardArticleService.getBoardArticle(memberId, input.commentRefId);
       if (!article || !article.memberId) {
         throw new InternalServerErrorException('Article not found');
       }
@@ -101,15 +95,17 @@ export class CommentService {
 
   public async updateComment(memberId: ObjectId, input: CommentUpdate): Promise<Comment> {
     const { _id } = input;
-    const result = await this.commentModel.findOneAndUpdate(
-      {
-        _id,
-        memberId,
-        commentStatus: CommentStatus.ACTIVE,
-      },
-      input,
-      { new: true },
-    ).exec();
+    const result = await this.commentModel
+      .findOneAndUpdate(
+        {
+          _id,
+          memberId,
+          commentStatus: CommentStatus.ACTIVE,
+        },
+        input,
+        { new: true },
+      )
+      .exec();
 
     if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
     return result;
@@ -120,21 +116,23 @@ export class CommentService {
     const match: T = { commentRefId, commentStatus: CommentStatus.ACTIVE };
     const sort: T = { [input?.sort ?? 'createdAt']: input?.direction ?? Direction.DESC };
 
-    const result: Comments[] = await this.commentModel.aggregate([
-      { $match: match },
-      { $sort: sort },
-      {
-        $facet: {
-          list: [
-            { $skip: (input.page - 1) * input.limit },
-            { $limit: input.limit },
-            lookupMember,
-            { $unwind: '$memberData' },
-          ],
-          metaCounter: [{ $count: 'total' }],
+    const result: Comments[] = await this.commentModel
+      .aggregate([
+        { $match: match },
+        { $sort: sort },
+        {
+          $facet: {
+            list: [
+              { $skip: (input.page - 1) * input.limit },
+              { $limit: input.limit },
+              lookupMember,
+              { $unwind: '$memberData' },
+            ],
+            metaCounter: [{ $count: 'total' }],
+          },
         },
-      },
-    ]).exec();
+      ])
+      .exec();
 
     if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
     return result[0];
