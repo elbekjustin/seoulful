@@ -19,7 +19,7 @@ export class BoardArticleUpdate {
 	articleTitle?: string;
 
 	@IsOptional()
-	@Length(3, 250)
+	@Length(3, 450)
 	@Field(() => String, { nullable: true })
 	articleContent?: string;
 
