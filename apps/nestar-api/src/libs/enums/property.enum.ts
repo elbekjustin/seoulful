@@ -7,7 +7,6 @@ export enum PropertyType {
   CULTURAL_PLACES = 'CULTURAL_PLACES',     // 🎨 Muzey, teatr, tarixiy joylar
   NIGHT_VIBES = 'NIGHT_VIBES',             // 🌙 Night view, light, music joylar
   RELAXING_SPOTS = 'RELAXING_SPOTS',       // 🧘 Park, forest walk, jim joylar
-  EVENTS_FESTIVALS = 'EVENTS_FESTIVALS',   // 🎉 Festival, bazar, ochiq tadbirlar
   HIDDEN_SPOTS = 'HIDDEN_SPOTS',           // 🚪 Kam taniqli, go‘zal joylar
   HALAL_RESTAURANTS = 'HALAL_RESTAURANTS', // 🍛 Halal restoranlar
   MOSQUES = 'MOSQUES',                     // 🕌 Masjidlar

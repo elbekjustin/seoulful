@@ -209,34 +209,39 @@ export class PropertyService {
 
   /** LIKE **/
 
-  public async likeTargetProperty(propertyId: ObjectId, likeRefId: ObjectId): Promise<Property> {
-    const target: Property = await this.propertyModel
-      .findOne({
-        _id: likeRefId,
-        propertyStatus: PropertyStatus.ACTIVE,
-      })
-      .exec();
-
-    if (!target) throw new InternalServerErrorException(Message.NO_DATA_FOUND); // Nega kerak? frontda like bosish imkoni borligini ozi yetarli emasmi ?
-
-    const input: LikeInput = {
-      memberId: propertyId, // Like qiluvchi foydalanuvchi
-      likeRefId: likeRefId, // Like qilingan member
-      likeGroup: LikeGroup.PROPERTY,
-      likeOwnerId: target.memberId,
-    };
-
-    // LIKE TOGGLE = Like modifikatsiya qilish (qo‘shish yoki olib tashlash)
-    const modifier: number = await this.likeService.toggleLike(input);
-    const result = await this.propertyStatsEditor({
+public async likeTargetProperty(memberId: ObjectId, likeRefId: ObjectId): Promise<Property> {
+  const target: Property = await this.propertyModel
+    .findOne({
       _id: likeRefId,
-      targetKey: 'propertyLikes',
-      modifier: modifier,
-    });
+      propertyStatus: PropertyStatus.ACTIVE,
+    })
+    .exec();
 
-    if (!result) throw new InternalServerErrorException(Message.SOMETHING_WENT_WRONG);
-    return result;
+  if (!target) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+
+  const input: LikeInput = {
+    memberId: memberId,
+    likeRefId: likeRefId,
+    likeGroup: LikeGroup.PROPERTY,
+    likeOwnerId: target.memberId,
+  };
+
+  const modifier: number = await this.likeService.toggleLike(input);
+
+  const updated = await this.propertyStatsEditor({
+    _id: likeRefId,
+    targetKey: 'propertyLikes',
+    modifier: modifier,
+  });
+
+  // 🛠️ YANGI QO‘SHILADIGAN QISM:
+  if (updated) {
+    updated.meLiked = await this.likeService.checkLikeExistence(input);  // Like holatini ham qaytaramiz
   }
+
+  return updated;
+}
+
 
   /** ADMIN **/
 

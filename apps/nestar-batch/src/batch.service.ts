@@ -52,16 +52,29 @@ export class BatchService {
 	}
 
 	public async batchTopAgents(): Promise<void> {
-	  const agents: Member[] = await this.memberModel
-		.find({
-		memberType: MemberType.AGENT,
-		memberStatus: MemberStatus.ACTIVE,
-		memberRank: 0,
-		})
-		.exec();
+	const agents: Member[] = await this.memberModel.find({
+	memberType: MemberType.AGENT,
+	memberStatus: MemberStatus.ACTIVE,
+	$or: [
+		{ memberRank: 0 },
+		{ memberRank: null },
+		{ memberRank: { $exists: false } },
+	],
+	}).exec();
+
 
 	  const promisedList = agents.map(async (ele: Member) => {
 		const { _id, memberProperties, memberLikes, memberArticles, memberViews } = ele;
+
+
+          console.log('AGENT RANK DATA:', {
+			_id,
+			memberProperties,
+			memberArticles,
+			memberLikes,
+			memberViews,
+		});
+
 		const rank =
 		memberProperties * 5 +
 		memberArticles * 3 +
