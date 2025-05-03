@@ -137,5 +137,14 @@ export class PropertyResolver {
     return await this.propertyService.removePropertyByAdmin(propertyId);
   }
 
+
+
+
+  @Mutation(() => String)
+async updateAllPropertyEmbeddings(): Promise<string> {
+  return this.propertyService.updateAllEmbeddings();
+}
+
+
 }
 

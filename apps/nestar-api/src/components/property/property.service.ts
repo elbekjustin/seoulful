@@ -21,6 +21,7 @@ import { lookupAuthMemberLiked, lookupMember, shapeIntoMongoObjectId } from '../
 import { LikeService } from '../like/like.service';
 import { LikeInput } from '../../libs/dto/like/like.input';
 import { LikeGroup } from '../../libs/enums/like.enum';
+import { EmbeddingService } from '../embedding/embedding.service';
 
 @Injectable()
 export class PropertyService {
@@ -29,22 +30,35 @@ export class PropertyService {
     private memberService: MemberService,
     private viewService: ViewService,
     private likeService: LikeService,
+    private embeddingService: EmbeddingService,
   ) {}
 
-  public async createProperty(input: PropertyInput): Promise<Property> {
-    try {
-      const result = await this.propertyModel.create(input);
-      await this.memberService.memberStatusEditor({
-        _id: result.memberId,
-        targetKey: 'memberProperties',
-        modifier: 1,
-      });
-      return result;
-    } catch (err) {
-      console.log('Error, Service.model:', err.message);
-      throw new BadRequestException(Message.CREATE_FAILED);
-    }
+public async createProperty(input: PropertyInput): Promise<Property> {
+  try {
+    // 1. Embeddingni yaratamiz
+    const fullText = `${input.propertyTitle} ${input.propertyAddress} ${input.recommended?.join(' ')} ${input.atmosphere?.join(' ')}`;
+    const embedding = await this.embeddingService.generateEmbedding(fullText);
+
+    // 2. Inputga qo‘shib yuboramiz
+    const result = await this.propertyModel.create({
+      ...input,
+      embedding, // Yangi embedding ni joylashtiramiz
+    });
+
+    // 3. Member statistikasi yangilanadi
+    await this.memberService.memberStatusEditor({
+      _id: result.memberId,
+      targetKey: 'memberProperties',
+      modifier: 1,
+    });
+
+    return result;
+  } catch (err) {
+    console.log('Error, Service.model:', err.message);
+    throw new BadRequestException(Message.CREATE_FAILED);
   }
+}
+
 
   public async getProperty(memberId: ObjectId, propertyId: ObjectId): Promise<Property> {
     const search: T = {
@@ -318,4 +332,32 @@ public async updatePropertyByAdmin(memberId: ObjectId, input: PropertyUpdate): P
     const { _id, targetKey, modifier } = input;
     return await this.propertyModel.findByIdAndUpdate(_id, { $inc: { [targetKey]: modifier } }, { new: true }).exec();
   }
+
+
+
+
+  public async updateAllEmbeddings() {
+  const properties = await this.propertyModel.find({ embedding: { $exists: false } }); // faqat embedding yo‘qlar
+
+  for (const property of properties) {
+    const text = `${property.propertyTitle} ${property.propertyAddress} ${property.recommended?.join(' ')} ${property.atmosphere?.join(' ')}`;
+    try {
+      const embedding = await this.embeddingService.generateEmbedding(text);
+      await this.propertyModel.updateOne(
+        { _id: property._id },
+        { $set: { embedding } }
+      );
+      console.log(`✅ Updated: ${property.propertyTitle}`);
+    } catch (err) {
+      console.error(`❌ Error on ${property._id}:`, err.message);
+    }
+  }
+
+  return `Updated ${properties.length} properties`;
 }
+
+}
+
+
+
+

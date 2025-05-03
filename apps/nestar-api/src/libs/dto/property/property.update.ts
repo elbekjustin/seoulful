@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, Float, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, IsOptional, Length } from 'class-validator';
 import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
 import { ObjectId } from 'mongoose';
@@ -59,6 +59,11 @@ export class PropertyUpdate {
   @IsOptional()
   @Field(() => Date, { nullable: true })
   constructedAt?: Date;
+
+  @IsOptional()
+  @Field(() => [Float], { nullable: true })
+  embedding?: number[];
+
 
   // optional fields without decorators, for internal use
   hiddenAt?: Date;

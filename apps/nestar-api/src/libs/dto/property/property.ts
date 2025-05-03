@@ -3,6 +3,7 @@ import { ObjectId } from 'mongoose';
 import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
 import { Member, TotalCounter } from '../member/member';
 import { MeLiked } from '../like/like';
+import { Prop } from '@nestjs/mongoose';
 
 @ObjectType()
 export class Property {
@@ -65,6 +66,11 @@ export class Property {
 
   @Field(() => Date, { nullable: true })
   constructedAt?: Date;
+
+  @Prop({ type: [Number], default: [] })
+  @Field(() => [Number], { nullable: true })
+  embedding?: number[];
+
 
   @Field(() => Date)
   createdAt: Date;
