@@ -334,6 +334,7 @@ public async updatePropertyByAdmin(memberId: ObjectId, input: PropertyUpdate): P
   }
 
 
+// AI API integration
 
 
   public async updateAllEmbeddings() {
@@ -355,6 +356,47 @@ public async updatePropertyByAdmin(memberId: ObjectId, input: PropertyUpdate): P
 
   return `Updated ${properties.length} properties`;
 }
+
+
+public async recommendSimilarProperties(inputText: string, topK = 5): Promise<Property[]> {
+  const embedding = await this.embeddingService.generateEmbedding(inputText);
+
+  // Cosine similarity ni hisoblaymiz (approximate: $dotProduct)
+  const similarProperties = await this.propertyModel
+    .aggregate([
+      {
+        $addFields: {
+          similarity: {
+            $let: {
+              vars: {
+                dotProduct: {
+                  $sum: {
+                    $map: {
+                      input: { $range: [0, 1536] },
+                      as: 'i',
+                      in: {
+                        $multiply: [
+                          { $arrayElemAt: ['$embedding', '$$i'] },
+                          { $arrayElemAt: [embedding, '$$i'] },
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+              in: '$$dotProduct',
+            },
+          },
+        },
+      },
+      { $sort: { similarity: -1 } },
+      { $limit: topK },
+    ])
+    .exec();
+
+  return similarProperties;
+}
+
 
 }
 

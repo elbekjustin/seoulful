@@ -87,6 +87,12 @@ const PropertySchema = new Schema(
 			ref: 'Member',
 		},
 
+		embedding: {
+			type: [Number], // OpenAI'dan keladigan vektor float sonlar massivi
+			default: [],
+		},
+
+
 		// hiddenAt: {
 		// 	type: Date,
 		// },

@@ -138,12 +138,22 @@ export class PropertyResolver {
   }
 
 
+// AI API interration
 
 
   @Mutation(() => String)
 async updateAllPropertyEmbeddings(): Promise<string> {
   return this.propertyService.updateAllEmbeddings();
 }
+
+@UseGuards(WithoutGuard)
+@Query(() => [Property])
+public async getRecommendedPropertiesByAI(
+  @Args('inputText') inputText: string,
+): Promise<Property[]> {
+  return await this.propertyService.recommendSimilarProperties(inputText);
+}
+
 
 
 }

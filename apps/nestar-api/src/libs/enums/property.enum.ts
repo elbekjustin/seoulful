@@ -35,8 +35,6 @@ export enum PropertyLocation {
   SEOCHO = 'SEOCHO',
   YEONGDEUNGPO = 'YEONGDEUNGPO',
   DONGDAEMUN = 'DONGDAEMUN',
-  SEODAEMUN = 'SEODAEMUN',
-  EUNPYEONG = 'EUNPYEONG',
   OTHER = 'OTHER',
 }
 registerEnumType(PropertyLocation, {
