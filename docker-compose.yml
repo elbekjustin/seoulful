@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+  seoulful-api:
+    container_name: seoulful-api
+    restart: always
+    image: node:20.10.0
+    ports:
+      - "4001:3007"
+    volumes:
+      - ./:/usr/src/seoulful
+    working_dir: /usr/src/seoulful
+    
+    networks:
+      - monorepo-network
+    command: bash -c "npm install && npm run build && npm run start:prod"
+
+  seoulful-batch:
+    container_name: seoulful-batch
+    restart: unless-stopped
+    image: node:20.10.0
+    ports:
+      - "4002:3008"
+    volumes:
+      - ./:/usr/src/seoulful
+    working_dir: /usr/src/seoulful
+    networks:
+      - monorepo-network
+    command: bash -c "npm install && npm run build && npm run start:prod:batch"
+
+networks:
+  monorepo-network:
+    driver: bridge
+
+    # seoulful-next localhost:4000 <=> container:3000
+    # seoulful-api localhost:4001 <=> container:3007
+    # seoulful-batch localhost:4002 <=> container:3008

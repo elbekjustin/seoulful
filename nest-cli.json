@@ -1,32 +1,33 @@
 {
-	"$schema": "https://json.schemastore.org/nest-cli",
-	"collection": "@nestjs/schematics",
-	"sourceRoot": "apps/nestar-api/src",
-	"compilerOptions": {
-		"deleteOutDir": true,
-		"webpack": true,
-		"tsConfigPath": "apps/nestar-api/tsconfig.app.json"
-	},
-	"monorepo": true,
-	"root": "apps/nestar-api",
-	"projects": {
-		"nestar-api": {
-			"type": "application",
-			"root": "apps/nestar-api",
-			"entryFile": "main",
-			"sourceRoot": "apps/nestar-api/src",
-			"compilerOptions": {
-				"tsConfigPath": "apps/nestar-api/tsconfig.app.json"
-			}
-		},
-		"nestar-batch": {
-			"type": "application",
-			"root": "apps/nestar-batch",
-			"entryFile": "main",
-			"sourceRoot": "apps/nestar-batch/src",
-			"compilerOptions": {
-				"tsConfigPath": "apps/nestar-batch/tsconfig.app.json"
-			}
-		}
-	}
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/seoulful-api/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/seoulful-api/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/seoulful-api",
+  "projects": {
+    "seoulful-api": {
+      "type": "application",
+      "root": "apps/seoulful-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/seoulful-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/seoulful-api/tsconfig.app.json",
+        "webpack": true          
+      }
+    },
+    "seoulful-batch": {
+      "type": "application",
+      "root": "apps/seoulful-batch",
+      "entryFile": "main",
+      "sourceRoot": "apps/seoulful-batch/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/seoulful-batch/tsconfig.app.json"
+      }
+    }
+  }
 }
